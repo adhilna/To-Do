@@ -1,0 +1,127 @@
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    min-height: 732px;
+    border-radius: 20px;
+    padding: 20px 44px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Modal content box */
+.modal-content {
+    background-color: #fff;
+    border-radius: 16px;
+    width: 400px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Modal heading */
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #2c2c2c;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Input styles */
+.modal-input {
+    width: 80%;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.modal-input:focus {
+    border-color: hsl(90, 94%, 49%);
+    ;
+}
+
+/* Button styles */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button.add {
+    background-color: #e18b71;
+    color: white;
+}
+
+.modal-button.add:hover {
+    background-color: #e34718;
+}
+
+.modal-button.cancel {
+    background-color: #ddd;
+    color: #333;
+}
+
+.modal-button.cancel:hover {
+    background-color: #bbb;
+}
+
+/* Mobile friendly tweaks */
+/* Responsive design for mobile */
+@media (max-width: 480px) {
+    .modal-overlay {
+        width: 90vw;
+        height: 100vh;
+        padding: 16px;
+        border-radius: 0;
+    }
+
+
+
+    .modal-content {
+        width: 100%;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .modal-input {
+        width: 90%;
+        /* ✅ Updated here */
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-button {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%;
+    }
+}

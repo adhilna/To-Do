@@ -1,0 +1,232 @@
+.todo {
+    width: 600px;
+    min-height: 732px;
+    border-radius: 20px;
+    display: flex;
+    background: white;
+    padding: 0px 44px;
+    flex-direction: column;
+    padding-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+    /* ✅ Center the box */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.todo-header {
+    margin-top: 84px;
+    font-weight: 600;
+    line-height: 34px;
+    color: green;
+    font-size: 40px;
+    text-align: center;
+}
+
+.todo-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+    gap: 16px;
+}
+
+.todo-input {
+    flex: 1;
+    height: 60px;
+    border: 2px solid rgb(0, 85, 0);
+    border-radius: 50px;
+    padding: 0 25px;
+    background: #ffffff9a;
+    font-size: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.todo-input:focus {
+    border-color: hsl(90, 94%, 49%);
+    box-shadow: 0 0 5px rgba(175, 91, 76, 0.5);
+}
+
+.todo-add-btn {
+    background-color: rgb(0, 85, 0);
+    color: white;
+    height: 40px;
+    width: 180px;
+    display: flex;
+    border: 2px solid rgb(0, 85, 0);
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 26px;
+    transition: background-color 0.3s ease;
+
+    /* fix below */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-add-btn:hover {
+    background-color: hsl(90, 94%, 49%);
+    color: #333;
+}
+
+.todo-list {
+    margin-top: 40px;
+}
+
+.todo-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fefefe;
+    padding: 16px 20px;
+    margin: 10px auto;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.todo-items:hover {
+    transform: scale(1.01);
+    background-color: #f9f9f9;
+}
+
+.todo-items-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.todo-items-text {
+    font-size: 16px;
+    color: #333;
+    word-break: break-word;
+}
+
+/* .todo-items-cross-icon {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+}
+
+.todo-items-cross-icon:hover {
+    transform: rotate(90deg) scale(1.1);
+} */
+
+/* .todo-items-edit-icon {
+    margin-left: 25px;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.todo-items-edit-icon:hover {
+    transform: scale(1.5);
+    color: hsl(90, 94%, 49%);
+} */
+
+.todo-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* This adds the space between icons */
+}
+
+.todo-items-edit-icon {
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.todo-items-edit-icon:hover {
+    transform: scale(1.5);
+    color: green;
+}
+
+.todo-items-cross-icon {
+    color: #e74c3c;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.todo-items-cross-icon:hover {
+    transform: rotate(90deg) scale(1.5);
+    color: #c0392b;
+}
+
+
+@media (max-width: 768px) {
+    .todo {
+        width: 90%;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .todo-header {
+        font-size: 32px;
+        margin-top: 40px;
+    }
+
+    .todo-input {
+        font-size: 18px;
+        height: 50px;
+    }
+
+    .todo-add-btn {
+        font-size: 20px;
+        width: 140px;
+        height: 40px;
+    }
+
+    .todo-items {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .todo-items-container {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .todo-items-cross-icon {
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .todo-header {
+        font-size: 26px;
+    }
+
+    .todo-add {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .todo-input {
+        width: 100%;
+    }
+
+    .todo-add-btn {
+        width: 100%;
+    }
+
+    .todo-items-text {
+        font-size: 14px;
+    }
+}
