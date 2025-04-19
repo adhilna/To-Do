@@ -68,6 +68,9 @@ const Home = () => {
             <Link to="/register" className="register-link">
                 Register
             </Link>
+            <Link to="/login" className="login-link">
+                Login
+            </Link>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <button className="todo-add-btn" onClick={() => setShowModal(true)}>
