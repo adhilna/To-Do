@@ -4,11 +4,13 @@ import "../CSS/Home.css";
 import AddTaskModal from "./AddTaskModal";
 import EditTaskModal from "./EditTaskModal";
 import { Trash2, Pencil } from "lucide-react";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [editingTask, setEditingTask] = useState(null); // 🟢 You missed this line
+    const [editingTask, setEditingTask] = useState(null);
 
     useEffect(() => {
         api.get("tasks/")
@@ -58,9 +60,14 @@ const Home = () => {
             .catch((err) => console.error("Update Failed", err));
     };
 
+
     return (
         <div className="todo">
             <div className="todo-header">To-Do List</div>
+
+            <Link to="/register" className="register-link">
+                Register
+            </Link>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <button className="todo-add-btn" onClick={() => setShowModal(true)}>
