@@ -22,9 +22,12 @@ const Login = () => {
 
         try {
             const res = await axios.post('http://127.0.0.1:8000/api/accounts/login/', formData);
-            localStorage.setItem('token', res.data.token); // Store the token in local storage
+
+            localStorage.setItem('access_token', res.data.access); // 🔐 access token
+            localStorage.setItem('refresh_token', res.data.refresh); // optional
+
             setMessage('✅ Login Successful!');
-            navigate('/'); // Redirect to home page
+            navigate('/'); // Redirect to Home
         } catch (err) {
             console.error(err);
             setMessage('❌ Login Failed!');

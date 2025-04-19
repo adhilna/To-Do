@@ -30,9 +30,23 @@ const Register = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            setMessage('✅ Registration Successful!');
-            console.log(res.data);
+
+            const loginResponse = await axios.post("http://127.0.0.1:8000/api/accounts/login/", {
+                username: formData.username,
+                password: formData.password
+            });
+
+            const { access, refresh } = loginResponse.data;
+
+            localStorage.setItem("access_token", access);
+            localStorage.setItem("refresh_token", refresh);
+
+            setMessage('✅ Registration and Login Successful!');
+            console.log("User registered and logged in", loginResponse.data);
+
+            // Redirect to the home page directly after successful login
             navigate("/");
+
         } catch (err) {
             console.error(err.response?.data);
             setMessage('❌ Registration Failed!');

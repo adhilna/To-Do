@@ -4,19 +4,34 @@ import "../CSS/Home.css";
 import AddTaskModal from "./AddTaskModal";
 import EditTaskModal from "./EditTaskModal";
 import { Trash2, Pencil } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const access = localStorage.getItem("access_token");
+        if (!access) {
+            navigate("/login"); // redirect to login
+        }
+    }, [navigate]);
 
     useEffect(() => {
         api.get("tasks/")
             .then((res) => setTodos(res.data))
             .catch((err) => console.error(err));
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("token");
+        navigate("/login"); // redirect to login after logout
+    };
 
     const handleAddTask = (newTask) => {
         setTodos([...todos, newTask]);
@@ -63,7 +78,10 @@ const Home = () => {
 
     return (
         <div className="todo">
-            <div className="todo-header">To-Do List</div>
+            <div className="todo-header">
+                To-Do List
+                <button className="logout-btn" onClick={handleLogout}>Logout</button> {/* 🆕 Logout */}
+            </div>
 
             <Link to="/register" className="register-link">
                 Register
