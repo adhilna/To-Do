@@ -27,7 +27,7 @@ const Login = () => {
             localStorage.setItem('refresh_token', res.data.refresh); // optional
 
             setMessage('✅ Login Successful!');
-            navigate('/'); // Redirect to Home
+            navigate('/home'); // Redirect to Home
         } catch (err) {
             console.error(err);
             setMessage('❌ Login Failed!');

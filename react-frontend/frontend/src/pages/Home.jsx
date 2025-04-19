@@ -30,7 +30,7 @@ const Home = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("token");
-        navigate("/login"); // redirect to login after logout
+        navigate("/"); // redirect to login after logout
     };
 
     const handleAddTask = (newTask) => {
@@ -82,13 +82,6 @@ const Home = () => {
                 To-Do List
                 <button className="logout-btn" onClick={handleLogout}>Logout</button> {/* 🆕 Logout */}
             </div>
-
-            <Link to="/register" className="register-link">
-                Register
-            </Link>
-            <Link to="/login" className="login-link">
-                Login
-            </Link>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <button className="todo-add-btn" onClick={() => setShowModal(true)}>
