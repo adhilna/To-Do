@@ -81,21 +81,29 @@ const Home = () => {
     };
 
     const handleSetReminder = (reminderData) => {
-        // This is where you would integrate with your backend to save reminder data
-        // For now, we'll just log it and show a notification
+
+        const payload = {
+        task: reminderData.taskId,
+        datetime: reminderData.datetime.toISOString(),
+        type: reminderData.type,
+        };
+
+        const access = localStorage.getItem("access_token");
         console.log("Setting reminder:", reminderData);
-
-        // You can extend this to make an API call to save the reminder
-        // api.post(`tasks/${reminderData.taskId}/reminders/`, reminderData)
-        //     .then(() => {
-        //         // Show success notification
-        //         alert("Reminder set successfully!");
-        //     })
-        //     .catch((err) => console.error("Reminder failed:", err));
-
+        api.post('/reminders/', payload, {
+        headers: {
+            Authorization: `Bearer ${access}`,
+        }
+        })
+        .then(() => {
         alert("Reminder set successfully!");
         setReminderTask(null);
-    };
+        })
+        .catch((err) => {
+            console.error("Failed to set reminder:", err);
+            alert("Failed to set reminder. Please try again.");
+        });
+};
 
     const handleReminderClick = (task) => {
         setReminderTask(task);

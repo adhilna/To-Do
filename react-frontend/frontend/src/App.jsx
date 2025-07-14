@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import Auth from "./pages/Auth";
 
 
+
 import './index.css'; // This line exists in main.jsx
 
 
