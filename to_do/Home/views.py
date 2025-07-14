@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import TodoTask
-from .serializers import TaskSerializer
+from .models import TodoTask, Reminder
+from .serializers import TaskSerializer, ReminderSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -13,3 +13,11 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class ReminderViewSet(viewsets.ModelViewSet):
+    queryset = Reminder.objects.all()
+    serializer_class = ReminderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Reminder.objects.filter(task__user=self.request.user)
