@@ -43,7 +43,7 @@ const Auth = () => {
 
     try {
       const res = await api.post(
-        "../accounts/login/",
+        "accounts/login/",
         loginData
       );
 
@@ -65,7 +65,7 @@ const Auth = () => {
 
     try {
       await api.post(
-        "../accounts/register/",
+        "accounts/register/",
         registerData,
         {
           headers: {
@@ -75,7 +75,7 @@ const Auth = () => {
       );
 
       const loginResponse = await api.post(
-        "../accounts/login/",
+        "accounts/login/",
         {
           username: registerData.username,
           password: registerData.password,
