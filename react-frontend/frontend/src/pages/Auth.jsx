@@ -7,13 +7,13 @@ const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  
+
   // Login form state
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
-  
+
   // Register form state
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -120,6 +120,7 @@ const Auth = () => {
                   value={loginData.username}
                   onChange={handleLoginChange}
                   required
+                  autoComplete="username"
                 />
               </div>
               <div className="form-group">
@@ -130,6 +131,7 @@ const Auth = () => {
                   value={loginData.password}
                   onChange={handleLoginChange}
                   required
+                  autoComplete="current-password"
                 />
               </div>
               <button type="submit" className="submit-btn">Login</button>
@@ -165,6 +167,7 @@ const Auth = () => {
                   value={registerData.email}
                   onChange={handleRegisterChange}
                   required
+                  autoComplete="new-password"
                 />
               </div>
               <div className="form-group">

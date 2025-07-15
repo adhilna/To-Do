@@ -9,7 +9,14 @@ const AddTaskModal = ({ onAdd, onClose }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleAdd = async () => {
-        if (title.trim() === "") return;
+        if (title.trim() === "") {
+            alert("Please enter a title.");
+            return;
+        }
+        if (description.trim() === "") {
+            alert("Please write a description.");
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -26,6 +33,7 @@ const AddTaskModal = ({ onAdd, onClose }) => {
             onClose();
         } catch (err) {
             console.error(err);
+            alert("Failed to add task.");
         } finally {
             setIsSubmitting(false);
         }

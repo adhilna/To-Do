@@ -1,12 +1,55 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NotificationContext } from "./NotificationContext";
-import '../CSS/NotificationProvider.css';
+import "../CSS/NotificationProvider.css";
 
 export function NotificationProvider({ children }) {
   const [notification, setNotification] = useState(null);
+  const [token, setToken] = useState(null);
   const socketRef = useRef(null);
 
-  // Auto-hide the popup after 4 seconds
+  // ✅ Load token on mount (after it's available in localStorage)
+  useEffect(() => {
+    const access = localStorage.getItem("access_token");
+    if (access) {
+      setToken(access);
+    }
+  }, []);
+
+  // ✅ WebSocket connection (reacts when token is ready)
+  useEffect(() => {
+    if (!token) return;
+
+    const socket = new WebSocket(
+      `ws://localhost:8000/ws/notifications/?token=${token}`
+    );
+    socketRef.current = socket;
+
+    socket.onopen = () => {
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setNotification(data.message);
+      } catch (err) {
+        console.error("Error parsing WebSocket message:", err);
+      }
+    };
+
+    socket.onclose = (event) => {
+      console.log("WebSocket closed:", event.code, event.reason);
+    };
+
+    socket.onerror = (event) => {
+      console.error("WebSocket error:", event);
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [token]);
+
+  // ✅ Auto-hide notification after 4 seconds
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => setNotification(null), 4000);
@@ -14,39 +57,7 @@ export function NotificationProvider({ children }) {
     }
   }, [notification]);
 
-  // WebSocket connection
-  useEffect(() => {
-    const access = localStorage.getItem("access_token");
-    if (!access) return;
-
-    socketRef.current = new WebSocket(
-      `ws://localhost:8001/ws/notifications/?token=${access}`
-    );
-
-    socketRef.current.onopen = () => {
-      console.log("WebSocket opened");
-    };
-
-    socketRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("Received notification:", data.message);
-      setNotification(data.message);
-    };
-
-    socketRef.current.onclose = (event) => {
-      console.log("WebSocket closed:", event.code, event.reason);
-    };
-
-    socketRef.current.onerror = (event) => {
-      console.error("WebSocket error:", event);
-    };
-
-    return () => {
-      if (socketRef.current) socketRef.current.close();
-    };
-  }, []);
-
-  // ✅ Add this function
+  // ✅ Manual trigger for other components via context
   const showNotification = (message) => {
     setNotification(message);
   };

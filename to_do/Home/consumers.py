@@ -9,7 +9,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             self.group_name = f"user_{self.user.id}"
             await self.channel_layer.group_add(self.group_name, self.channel_name)
             await self.accept()
-            await self.send(text_data=json.dumps({"message": "Welcome! WebSocket connected."}))
+            await self.send(text_data=json.dumps({"message": "Welcome! to TaskFlow ✅"}))
             print("WebSocket ACCEPTED for user", self.user.id)
         else:
             print("WebSocket REJECTED (user not authenticated)")
