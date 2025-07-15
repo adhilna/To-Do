@@ -30,7 +30,7 @@ const Home = () => {
     }, []);
 
     const fetchTasks = () => {
-        api.get("tasks/")
+        api.get("home/tasks/")
             .then((res) => setTodos(res.data))
             .catch((err) => console.error(err));
     };
@@ -72,7 +72,7 @@ const Home = () => {
     };
 
     const handleUpdateTask = (updatedTask) => {
-        api.put(`tasks/${updatedTask.id}/`, updatedTask)
+        api.put(`home/tasks/${updatedTask.id}/`, updatedTask)
             .then((res) => {
                 setTodos((prevTodos) =>
                     prevTodos.map((todo) => (todo.id === res.data.id ? res.data : todo))

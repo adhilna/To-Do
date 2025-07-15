@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/home/"
+    baseURL: import.meta.env.VITE_API_URL,
 });
 
 
@@ -16,7 +16,7 @@ const refreshAccessToken = async () => {
     }
 
     try {
-        const res = await axios.post("http://127.0.0.1:8000/api/accounts/token/refresh/", {
+        const res = await api.post("../accounts/token/refresh/", {
             refresh: refreshToken
         });
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../CSS/Auth.css"
+import api from "../services/api";
 
 const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -42,8 +42,8 @@ const Auth = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/api/accounts/login/",
+      const res = await api.post(
+        "../accounts/login/",
         loginData
       );
 
@@ -64,8 +64,8 @@ const Auth = () => {
     e.preventDefault();
 
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/api/accounts/register/",
+      await api.post(
+        "../accounts/register/",
         registerData,
         {
           headers: {
@@ -74,8 +74,8 @@ const Auth = () => {
         }
       );
 
-      const loginResponse = await axios.post(
-        "http://127.0.0.1:8000/api/accounts/login/",
+      const loginResponse = await api.post(
+        "../accounts/login/",
         {
           username: registerData.username,
           password: registerData.password,

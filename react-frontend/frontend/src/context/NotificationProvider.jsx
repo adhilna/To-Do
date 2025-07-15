@@ -20,7 +20,7 @@ export function NotificationProvider({ children }) {
     if (!token) return;
 
     const socket = new WebSocket(
-      `ws://localhost:8000/ws/notifications/?token=${token}`
+      `${import.meta.env.VITE_WS_URL}notifications/?token=${token}`
     );
     socketRef.current = socket;
 
