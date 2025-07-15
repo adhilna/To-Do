@@ -6,6 +6,7 @@ import EditTaskModal from "./EditTaskModal";
 import ReminderModal from "./ReminderModal";
 import { Trash2, Pencil, Plus, LogOut, CheckCircle, Circle, Bell, Calendar, User, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../context/NotificationContext";
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
@@ -15,6 +16,7 @@ const Home = () => {
     const [filter, setFilter] = useState("all"); // "all", "active", "completed"
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         const access = localStorage.getItem("access_token");
@@ -96,12 +98,12 @@ const Home = () => {
         }
         })
         .then(() => {
-        alert("Reminder set successfully!");
+        showNotification("✅ Reminder set successfully!");
         setReminderTask(null);
         })
         .catch((err) => {
             console.error("Failed to set reminder:", err);
-            alert("Failed to set reminder. Please try again.");
+            showNotification("❌ Failed to set reminder. Please try again.");
         });
 };
 

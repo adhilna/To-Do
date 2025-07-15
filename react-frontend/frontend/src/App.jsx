@@ -3,14 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home"
 import LandingPage from "./pages/LandingPage";
 import Auth from "./pages/Auth";
-
-
-
-import './index.css'; // This line exists in main.jsx
-
+import './index.css';
 
 function App() {
-
   return (
     <Router>
       <Routes>

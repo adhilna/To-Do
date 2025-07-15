@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NotificationContext } from "./NotificationContext";
-import '../CSS/NotificationProvider.css'; // You'll need to create this CSS file
+import '../CSS/NotificationProvider.css';
 
 export function NotificationProvider({ children }) {
   const [notification, setNotification] = useState(null);
@@ -46,8 +46,13 @@ export function NotificationProvider({ children }) {
     };
   }, []);
 
+  // ✅ Add this function
+  const showNotification = (message) => {
+    setNotification(message);
+  };
+
   return (
-    <NotificationContext.Provider value={{ notification, setNotification }}>
+    <NotificationContext.Provider value={{ showNotification }}>
       {children}
       {notification && (
         <div className="notification-popup">

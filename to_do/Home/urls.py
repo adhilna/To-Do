@@ -9,4 +9,3 @@ router.register(r'reminders', ReminderViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
-
