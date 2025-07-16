@@ -25,6 +25,3 @@ class ReminderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Reminder.objects.filter(task__user=self.request.user)
-
-
-

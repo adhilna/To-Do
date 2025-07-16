@@ -4,59 +4,79 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
 });
 
+// Utility to get tokens
+const getAccessToken = () => localStorage.getItem("access_token");
+const getRefreshToken = () => localStorage.getItem("refresh_token");
 
+// Utility to save new access token
+const storeAccessToken = (token) => {
+    localStorage.setItem("access_token", token);
+};
 
-// Function to refresh access token using the refresh token
+// Refresh access token using refresh token
 const refreshAccessToken = async () => {
-    const refreshToken = localStorage.getItem("refresh_token");
+    const refreshToken = getRefreshToken();
 
     if (!refreshToken) {
-        console.error("No refresh token found!");
-        return;
+        console.warn("No refresh token found. Logging out...");
+        return null;
     }
 
     try {
-        const res = await api.post("../accounts/token/refresh/", {
-            refresh: refreshToken
+        const response = await api.post("accounts/token/refresh/", {
+            refresh: refreshToken,
         });
 
-        // Store the new access token
-        localStorage.setItem("access_token", res.data.access);
+        const newAccessToken = response.data.access;
+        storeAccessToken(newAccessToken);
+        return newAccessToken;
+
     } catch (err) {
-        console.error("Token refresh failed:", err);
+        console.error("Token refresh failed:", err?.response?.data || err.message);
+        return null;
     }
 };
 
-// Intercept request to add the Authorization header
+// Attach token to every request
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("access_token"); // Get the access token
+        const token = getAccessToken();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
-// Intercept response to handle expired token (401 error)
+// Handle 401 errors (token expiration) and retry the original request
 api.interceptors.response.use(
-    (response) => response, // Return response if successful
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // If the error is 401 (Unauthorized) and token expired
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true; // Mark the request as retried
-            await refreshAccessToken(); // Refresh the token
-            const newAccessToken = localStorage.getItem("access_token");
-            originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`; // Retry with new token
-            return axios(originalRequest); // Retry the original request
+        // Avoid retry loops
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            const newAccessToken = await refreshAccessToken();
+
+            if (!newAccessToken) {
+                localStorage.clear();
+                window.location.href = "/";
+                return Promise.reject(error);
+            }
+
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return api(originalRequest);
         }
 
-        return Promise.reject(error); // Reject if not a 401 error
+        // Handle network or other errors
+        if (!error.response) {
+            console.error("Network error:", error.message);
+        }
+
+        return Promise.reject(error);
     }
 );
 

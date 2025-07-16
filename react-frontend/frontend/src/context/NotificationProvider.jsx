@@ -4,44 +4,47 @@ import "../CSS/NotificationProvider.css";
 
 export function NotificationProvider({ children }) {
   const [notification, setNotification] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("access_token"));
   const socketRef = useRef(null);
 
-  // ✅ Load token on mount (after it's available in localStorage)
+  // 🔁 Check localStorage for token changes (e.g., on login/register/logout)
   useEffect(() => {
-    const access = localStorage.getItem("access_token");
-    if (access) {
-      setToken(access);
-    }
-  }, []);
+    const interval = setInterval(() => {
+      const storedToken = localStorage.getItem("access_token");
+      if (storedToken !== token) {
+        setToken(storedToken);
+      }
+    }, 1000); // every 1s — lightweight and reliable
+    return () => clearInterval(interval);
+  }, [token]);
 
-  // ✅ WebSocket connection (reacts when token is ready)
+  // 🔌 Handle WebSocket connection
   useEffect(() => {
     if (!token) return;
+
+    // 🛑 Close old socket if any
+    if (socketRef.current) {
+      socketRef.current.close();
+    }
 
     const socket = new WebSocket(
       `${import.meta.env.VITE_WS_URL}notifications/?token=${token}`
     );
     socketRef.current = socket;
 
-    socket.onopen = () => {
-    };
 
     socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
         setNotification(data.message);
       } catch (err) {
-        console.error("Error parsing WebSocket message:", err);
+        console.error("❌ Error parsing WebSocket message:", err);
       }
     };
 
-    socket.onclose = (event) => {
-      console.log("WebSocket closed:", event.code, event.reason);
-    };
 
     socket.onerror = (event) => {
-      console.error("WebSocket error:", event);
+      console.error("⚠️ WebSocket error:", event);
     };
 
     return () => {
@@ -49,15 +52,15 @@ export function NotificationProvider({ children }) {
     };
   }, [token]);
 
-  // ✅ Auto-hide notification after 4 seconds
+  // ⏳ Auto-hide after 8s
   useEffect(() => {
     if (notification) {
-      const timer = setTimeout(() => setNotification(null), 4000);
+      const timer = setTimeout(() => setNotification(null), 8000);
       return () => clearTimeout(timer);
     }
   }, [notification]);
 
-  // ✅ Manual trigger for other components via context
+  // Manual usage via context
   const showNotification = (message) => {
     setNotification(message);
   };

@@ -15,3 +15,4 @@ env/
 # VS Code or IDE config
 .vscode/
 .idea/
+dump.rdb

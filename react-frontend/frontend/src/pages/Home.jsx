@@ -85,27 +85,26 @@ const Home = () => {
     const handleSetReminder = (reminderData) => {
 
         const payload = {
-        task: reminderData.taskId,
-        datetime: reminderData.datetime.toISOString(),
-        type: reminderData.type,
+            task: reminderData.taskId,
+            datetime: reminderData.datetime.toISOString(),
+            type: reminderData.type,
         };
 
         const access = localStorage.getItem("access_token");
-        console.log("Setting reminder:", reminderData);
-        api.post('/reminders/', payload, {
-        headers: {
-            Authorization: `Bearer ${access}`,
-        }
+        api.post('home/reminders/', payload, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            }
         })
-        .then(() => {
-        showNotification("✅ Reminder set successfully!");
-        setReminderTask(null);
-        })
-        .catch((err) => {
-            console.error("Failed to set reminder:", err);
-            showNotification("❌ Failed to set reminder. Please try again.");
-        });
-};
+            .then(() => {
+                showNotification("✅ Reminder set successfully!");
+                setReminderTask(null);
+            })
+            .catch((err) => {
+                console.error("Failed to set reminder:", err);
+                showNotification("❌ Failed to set reminder. Please try again.");
+            });
+    };
 
     const handleReminderClick = (task) => {
         setReminderTask(task);

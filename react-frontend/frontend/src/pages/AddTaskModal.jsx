@@ -2,26 +2,28 @@ import { useState } from "react";
 import api from "../services/api";
 import "../CSS/Modal.css";
 import { X, Plus } from "lucide-react";
+import { useNotification } from "../context/NotificationContext";
 
 const AddTaskModal = ({ onAdd, onClose }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { showNotification } = useNotification();
 
     const handleAdd = async () => {
         if (title.trim() === "") {
-            alert("Please enter a title.");
+            showNotification("Please enter a title.");
             return;
         }
         if (description.trim() === "") {
-            alert("Please write a description.");
+            showNotification("Please write a description.");
             return;
         }
 
         setIsSubmitting(true);
 
         try {
-            const res = await api.post("tasks/", {
+            const res = await api.post("home/tasks/", {
                 title: title,
                 description: description,
                 is_completed: false,
@@ -33,7 +35,7 @@ const AddTaskModal = ({ onAdd, onClose }) => {
             onClose();
         } catch (err) {
             console.error(err);
-            alert("Failed to add task.");
+            showNotification("Failed to add task.");
         } finally {
             setIsSubmitting(false);
         }
