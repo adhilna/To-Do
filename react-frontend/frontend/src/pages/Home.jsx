@@ -60,7 +60,7 @@ const Home = () => {
     };
 
     const handleDelete = (id) => {
-        api.delete(`tasks/${id}/`)
+        api.delete(`home/tasks/${id}/`)
             .then(() => {
                 setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
             })

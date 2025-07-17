@@ -179,4 +179,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),  # every minute
     },
 }
-
