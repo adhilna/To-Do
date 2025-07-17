@@ -172,6 +172,7 @@ CHANNEL_LAYERS = {
 
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_BEAT_SCHEDULER = 'celery.beat:PersistentScheduler'
 CELERY_BEAT_SCHEDULE = {
     'check-reminders-every-minute': {
         'task': 'reminders.tasks.check_and_send_reminders',
